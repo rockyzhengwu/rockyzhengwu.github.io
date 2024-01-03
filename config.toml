@@ -10,11 +10,27 @@ build_search_index = true
 
 #theme
 theme= "abridge"
+taxonomies = [
+  {name = "categories", feed = true},
+  {name = "tags", feed = true},
+]
 
 [markdown]
 highlight_code = true
+highlight_theme = "css"
+render_emoji = false
+external_links_target_blank = true # rel="noopener"
+external_links_no_follow = false   # rel="nofollow"
+external_links_no_referrer = false # rel="noreferrer"
+smart_punctuation = false          # `...` to `…`, `"quote"` to `“curly”` etc
 
 [extra]
+menu = [
+    {url = "about", name = "About", slash = true, blank = false, size="s110"},
+    {url = "archive", name = "Posts", slash = true, blank = false, size="s110"},
+    {url = "tags", name = "Tags", slash = true, blank = false, size="s110"},
+]
+
 math = true
 math_auto_render = true
 
@@ -22,5 +38,21 @@ math_auto_render = true
 toc = true
 recent = false
 
+meta_index = { position="bottom", size="s90", author=false, readtime=false, readstring="min", date=true, updated=false, categories_tags=true, divider="" }
+meta_post = { position="top", size="s95", author=true, readtime=false, readstring="min read", date=true, updated=true, categories_tags=true, divider="" }
+
+hide_section_dates = false # hides the date for sections that use posts.html as their template.
+hide_page_nextprev_titles = false # hides the next/previous titles for pages that use page.html as their template.
+title_size_index = "s85"
+footer_size = "s90"
+footer_credit = true
+
+
+
+stylesheets = ["abridge.css"]
+
 github = "rockyzhengwu"
 twitter = "zhengfivefive"
+
+
+seo = true
