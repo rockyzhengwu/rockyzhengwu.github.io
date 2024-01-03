@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
+    <title>ZhengWu - PDF</title>
+    <link rel="self" type="application/atom+xml" href="https://rockyzhengwu.github.io/tags/pdf/atom.xml"/>
+    <link rel="alternate" type="text/html" href="https://rockyzhengwu.github.io"/>
+    <generator uri="https://www.getzola.org/">Zola</generator>
+    <updated>2024-01-02T00:00:00+00:00</updated>
+    <id>https://rockyzhengwu.github.io/tags/pdf/atom.xml</id>
+    <entry xml:lang="en">
+        <title>Write a PDF Library(一): Overview</title>
+        <published>2024-01-02T00:00:00+00:00</published>
+        <updated>2024-01-02T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              Unknown
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://rockyzhengwu.github.io/pdf-overview/"/>
+        <id>https://rockyzhengwu.github.io/pdf-overview/</id>
+        
+        <summary type="html">&lt;p&gt;PDF(Portable Document Format) 有很长的历史,最早是从 Postscript 语言脱胎出来的。之所以对 PDF 感兴趣是因为 PDF 很常见, 但是 PDF 中的数据利用起来会比较有难。对于普通用户, PDF 的特性不适合修改, 增,删,查,改 基本都不合适，如果是文字最合适的是替换单个字符应该是可以的。 对于开发者，要从 PDF 数据中获取信息就比较困难。比如文档结构化的信息，这些难点体现在 PDF 转 EPUB, Markdown 等格式的时候并不能做到 100% 还原, 标题，段落，表格...等文档结构信息在 PDF 中是不存在的，需要根据 PDF 提前的文本特征做对应的分析，这也导致了在学术界有一个专门研究这个问题的方向 Document Analysis。&lt;&#x2F;p&gt;
+&lt;p&gt;其实主要是个人兴趣，想拿 Rust 重写一个 PDF 库。不过我显然低估了这里的难度。PDF 解析和渲染从大的角度看是编译器和图形学的融合。这里整理记录一些自己在读文档和代码之后的总结。&lt;&#x2F;p&gt;
+</summary>
+        
+    </entry>
+</feed>
