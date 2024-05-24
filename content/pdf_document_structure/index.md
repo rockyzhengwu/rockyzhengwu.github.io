@@ -1,5 +1,5 @@
 +++
-title = "PDF 文件结构(三) "
+title = "PDF 文件结构-Document Strcture (三) "
 description = "PDF 文件结构"
 date = 2024-01-02
 updated = 2024-01-02
