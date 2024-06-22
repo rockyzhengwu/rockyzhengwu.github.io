@@ -1,0 +1,273 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src="https://rockyzhengwu.github.io/js/theme.min.js" integrity="sha384-pb++s6uBRKaQv+iAXpgA/H3IlpLZdO14tTwuCI7uXmz4aaZdByoCcM+6BhynMq/1"></script>
+  <link rel="stylesheet" href="https://rockyzhengwu.github.io/abridge.css?h=05bba1e42abce3a1e3d2" />
+  <meta charset="utf-8" />
+  <meta http-equiv="x-ua-compatible" content="ie=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="base" content="https://rockyzhengwu.github.io" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <link rel="preload" as="style" class="preStyle" href="https://rockyzhengwu.github.io/katex.min.css" integrity="sha384-ZPe7yZ91iWxYumsBEOn7ieg8q/o+qh/hQpSaPow8T6BwALcXSCS6C6fSRPIAnTQs" />
+  <meta name="robots" content="index, follow" />
+  <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+  <meta name="bingbot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+  <title>PDF 文件结构-File Structure(二)  | ZhengWu</title>
+  <meta name="copyright" content="ZhengWu" />
+  <meta name="description" content="PDF 文件结构" />
+  <link rel="canonical" href="https://rockyzhengwu.github.io/pdf-file-structure/" />
+  <meta name="keywords" content="PDF" />
+  <meta property="og:url" content="https://rockyzhengwu.github.io/pdf-file-structure/" />
+  <meta name="twitter:url" content="https://rockyzhengwu.github.io/pdf-file-structure/" />
+  <meta property="og:description" content="PDF 文件结构" />
+  <meta name="twitter:description" content="PDF 文件结构" />
+  <meta property="og:title" content="PDF 文件结构-File Structure(二)  | ZhengWu" />
+  <meta name="twitter:title" content="PDF 文件结构-File Structure(二)  | ZhengWu" />
+  <meta name="twitter:card" content="summary" />
+  <meta property="og:site_name" content="ZhengWu" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:type" content="website" />
+  <meta property="og:updated_time" content="2024-05-04" />
+  <script defer src="https://rockyzhengwu.github.io/js/prestyle.js?h=146f911a5e713e197057" integrity="sha384-6wbmVXuN+uOE0IR/CuCv4Xb2OtZHsboBoVmCp7ZrwOY6Z0NBOighQOCn+aWykf3n"></script>
+  <script defer src="https://rockyzhengwu.github.io/js/theme_button.js?h=12a31e87fcbe7a55e953" integrity="sha384-UBxLGgFVZtEgNzOU3WqKoFT1oILftGjShFO4WIs1dO/jK7SNyz7BMYCYt5PffTxe"></script>
+  <script defer src="https://rockyzhengwu.github.io/js/email.js?h=ee3dd742e11c5014fdef" integrity="sha384-y0LUfjslyVLYZvCOyhELpvKivlXAq27Vnbed54glXoe/pZSYS/Pfqghp/sQt1xcV"></script>
+  <script defer src="https://rockyzhengwu.github.io/js/codecopy.js?h=0a54f99e682443925d3a" integrity="sha384-qssVvPpQgISh4PFkSBGTgXEMzuFO8Hat5m1MsdkpannoByWSTpLfBe4iEVl3+RiP"></script>
+  <script defer src="https://rockyzhengwu.github.io/js/elasticlunr.min.js?h=4f648b9e42abdef9c436" integrity="sha384-Q8viz7rndi8MSNDtItDgVWNSrCumjepopRMlz2nElkWPRXDQAcfiZGJbrCJVXdtw"></script>
+  <script defer src="https://rockyzhengwu.github.io/search_index.en.js?h=e78190633e46cb76bbac" integrity="sha384-IR7ZGJZXDHRVgf5EIMVcv+lnvEeXyKBLt8Gr+QpD2Se1kc1OH3Nk/MNvBvhIs2Mk"></script>
+  <script defer src="https://rockyzhengwu.github.io/js/searchjava.js?h=0c21fd0f19dbcf307af5" integrity="sha384-aScgZbiqY56Pw6uIUDpeV8tyTYskJDbi097is1f7oHsc+251G6aX3HJDfJrGx3+Q"></script>
+  <script defer src="https://rockyzhengwu.github.io/js/katexbundle.min.js?h=6299b774ae77579e4404" integrity="sha384-w2LtVhWr6g/pnU4E8ZCpuUruGnK6Kw2ykIJojhKGscTSRckItl1/sZigXdTjRkkI"></script>
+  <noscript><link rel="stylesheet" href="https://rockyzhengwu.github.io/nojs.css" /></noscript>
+
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CHCLQJ465V"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() {dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-CHCLQJ465V');
+</script>
+</head>
+<body>
+  <header>
+    <nav>
+      <div><h1><a href="https://rockyzhengwu.github.io" title="ZhengWu">ZhengWu</a></h1></div>
+      <div>
+
+        <div>
+          <ul><li><a class="s110" href="https://rockyzhengwu.github.io/about/"> About </a></li><li><a class="s110" href="https://rockyzhengwu.github.io/archive/"> Posts </a></li><li><a class="s110" href="https://rockyzhengwu.github.io/tags/"> Tags </a></li><li><i type="reset" id="mode" class="js svgs adjust"></i></ul>
+        </div>
+
+        <div>
+          <div>
+            <form autocomplete=off class="js" name="goSearch" id="searchbox">
+              <div class="searchd">
+                <input id="searchinput" type="text" placeholder="Search" title="Search" />
+                <button type="submit" title="Search" class="svgs search"></button>
+              </div>
+              <div class="results"><div id="suggestions"></div></div>
+            </form>
+          </div>
+        </div>
+
+      </div>
+    </nav>
+  </header>
+  <main>
+    <article>
+      <h1><a href="https://rockyzhengwu.github.io/pdf-file-structure/">PDF 文件结构-File Structure(二) </a></h1>
+
+      <span class="s95"> <span class="rpad"></span> May 04, 2024 <span class="rpad"></span>Updated: May 04, 2024 <span class="rpad"></span> #<a href="https://rockyzhengwu.github.io/tags/pdf/">PDF</a> </span>
+
+    
+        <div class="block">
+      <div class="blockdiv">
+        <a class="b s150" href="https://rockyzhengwu.github.io/tags/pdf/">PDF (Series)</a>
+        <ol>
+            <li><a href="https://rockyzhengwu.github.io/pdf-overview/">PDF 文件格式(一) </a></li>
+            <li><a class="scur" href="https://rockyzhengwu.github.io/pdf-file-structure/">PDF 文件结构-File Structure(二) </a></li> 
+          
+            <li><a href="https://rockyzhengwu.github.io/pdf-document-structure/">PDF 文件结构-Document Strcture (三) </a></li>
+            <li><a href="https://rockyzhengwu.github.io/pdf-graphics/">PDF 文件结构-Graphics(四) </a></li>
+            <li><a href="https://rockyzhengwu.github.io/pdf-image/">PDF 文件结构-image (五) </a></li>
+            <li><a href="https://rockyzhengwu.github.io/pdf-table-extract/">PDF 表格提取 </a></li>
+            <li><a href="https://rockyzhengwu.github.io/pdf-text/">PDF 文件结构-text (六) </a></li>
+        </ol>
+      </div>
+    </div>
+
+
+<h2 id="pdf-file-structure">PDF File Structure</h2>
+<p><a rel="noopener" target="_blank" href="http://127.0.0.1:1111/pdf-overview/">PDF 文件结构(一)</a></p>
+<p>从大的角度 PDF 可以分成下图中的四个部分.</p>
+<p><a href="https://rockyzhengwu.github.io/pdf-file-structure/./pdf_file_structure.png"><img src="./pdf_file_structure.png" width="150"/></a></p>
+<h3 id="head">Head</h3>
+<p>Head 一般都只有很少的信息，比如最简单的 <code>%PDF-1.7</code> 这样一行，记录 PDF 版本.</p>
+<h3 id="body">Body</h3>
+<p>通常情况下 Body 占了 PDF 文件的几乎 95% 以上的内容，Body 是很多 Object 组成的。</p>
+<h3 id="cross-reference-table">Cross reference table</h3>
+<p>Cross reference table 记录 所有 Object 在文件中的位置信息。</p>
+<h3 id="trailer">Trailer</h3>
+<p>Trailer 中有两部分，一部分是一个 Dictionary 记录了一些基础的信息，比如 PDF 的Info, 加密信息，比较重要的是记录的 Document Structure 的 Root ， 后面还会提到这个。领一部分是记录 cross reference table 的起始位置,下面是一个 Trailer 的示例</p>
+<pre class="z-code"><code><span class="z-text z-plain">Trailer
+</span><span class="z-text z-plain">&lt;&lt;
+</span><span class="z-text z-plain">key1, value1
+</span><span class="z-text z-plain">key2, value2
+</span><span class="z-text z-plain">...
+</span><span class="z-text z-plain">&gt;&gt;
+</span><span class="z-text z-plain">startxref
+</span><span class="z-text z-plain">int(这个 int 记录 cross reference table 的位置)
+</span><span class="z-text z-plain">%EOF
+</span><span class="z-text z-plain">
+</span></code></pre>
+<p>开始解析 PDF 的时候大致可以分 下面几个步骤</p>
+<ol>
+<li>从文件读取 Trailer 中的信息</li>
+<li>从 Trailer 获取 cross reference table 的位置开始解析 cross reference table</li>
+<li>从 trailer 获取 Document Structure 的 跟节点 开始解析出文档结构的信息。</li>
+</ol>
+<p>这里有 File Structure 和 Document Structure 两个概念，File Structure 是文件的物理结构信息，Document Structure 是文档逻辑结构，比如每页的位置，每一页也是很多 Object 组成的。</p>
+<h3 id="objects">Objects</h3>
+<p>在读 Trailer 和解析 cross reference table 我们需要知道 PDF 都有哪些 Objects, 他们的解析的方法是什么。Trailer 又一个 Dictionary, Dictionary 就是一种 PDF 支持的 Objects, Cross reference Table 因为版本的原因有两种方式，其中最新的版本就是 Objects 组成的。</p>
+<p>PDF  是从 PostScript 演化来的，Objects 也就类似我们变成语言中支持的数据类型</p>
+<h4 id="boolean-objects">Boolean Objects</h4>
+<p>Boolean 就两种 true, false,</p>
+<h4 id="numeric-objects">Numeric Objects</h4>
+<p>数值类型有两种，一种是整数(Integer objects),一种是实数(Real objects),我想这里指浮点数。下面这些都是数值类型的写法</p>
+<pre class="z-code"><code><span class="z-text z-plain">123 43445 +17 -98 0 34.5 -3.62 +123.6 4. -.002 0.0
+</span></code></pre>
+<h3 id="string-objects">String Objects</h3>
+<p>String 也有两种，一种是 Literal String 这种是在小括号中的字符串组成，比如:</p>
+<pre class="z-code"><code><span class="z-text z-plain">( This is a string )
+</span></code></pre>
+<p>另一种是 Hexadecimal String 从字面意思可以看到这种字符串是16 进制的，放在两个尖括号里面, 比如</p>
+<pre class="z-code"><code><span class="z-text z-plain">&lt; 4E6F762073686D6F7A206B6120706F702E &gt;
+</span></code></pre>
+<p>当然字符串有其他许多规则，比如 Literal String 里面有特殊符号怎么办之类的.</p>
+<h3 id="name-objects">Name Objects</h3>
+<p>Name Objects 用 <code>/</code> 开头后面跟字符串表示比如:</p>
+<pre class="z-code"><code><span class="z-text z-plain">\Root
+</span></code></pre>
+<h3 id="array-objects">Array Objects</h3>
+<p>Array 是一种符合结构，和 Python 的 List 一样里面可以是任何 PDF Objects 包括 Array 本身,定义在中括号里，比如下面这个 Array 有两个数值，一个 Bool, 一个 String, 和一个 Name.</p>
+<pre class="z-code"><code><span class="z-text z-plain">[ 549 3.14 false ( Ralph ) /SomeName ]
+</span></code></pre>
+<h3 id="dictionary-objects">Dictionary Objects</h3>
+<p>Dictionary 是一组 Key 和 value ，类似变成语言中的 Map, 语法定义是在两个<code>&lt;&lt;</code> 和 <code>&gt;&gt;</code> 之间, key 都是 Name 类型，Value 可以是任何 PDF Objects 包括 Dictionary.</p>
+<pre class="z-code"><code><span class="z-text z-plain">&lt;&lt; /Type /Example
+</span><span class="z-text z-plain">  /Subtype /DictionaryExample
+</span><span class="z-text z-plain">  /Version 0 . 01
+</span><span class="z-text z-plain">  /IntegerItem 12
+</span><span class="z-text z-plain">  /StringItem ( a string )
+</span><span class="z-text z-plain">  /Subdictionary &lt;&lt; /Item1 0 . 4
+</span><span class="z-text z-plain">    /Item2 true
+</span><span class="z-text z-plain">    /LastItem ( not ! )
+</span><span class="z-text z-plain">    /VeryLastItem ( OK )
+</span><span class="z-text z-plain">  &gt;&gt;
+</span><span class="z-text z-plain">&gt;&gt;
+</span></code></pre>
+<h3 id="stream-objects">Stream Objects</h3>
+<p>Stream 包含两部分，一部分是一个 Dictionary ，另一部分是二进制流，是 Stream 的内容。Stream 是很常见的对象，比如表示图片的时候，Dictionary保存图片的信息，宽高等，Stream 保存图片的具体内容，语法的大体如下, stream 和 endstream 是关键字，中间的部分就是stream 具体内容</p>
+<pre class="z-code"><code><span class="z-text z-plain">dictionary
+</span><span class="z-text z-plain">stream
+</span><span class="z-text z-plain">… Zero or more bytes …
+</span><span class="z-text z-plain">endstream
+</span></code></pre>
+<h3 id="null-object">Null Object</h3>
+<p>Null 和变成语言中的 None 一样</p>
+<h3 id="indirect-objects">Indirect Objects</h3>
+<p>Indirect Objects 是一中特使的类型，可以理解它是 Objects 的一种引用，比如在一个 Dictionary 的 Value 是一个 Stream ， 由于 Stream 通常很大等因素,不太好把这个 Stream 写到这个 Dictionary 当前位置，我们就可以把 Stream 保存到其他位置，然后把这个 Stream 在 cross reference table 中的编号存成 Dictionary 的Value。 读到这个 Indirect Objects 我们可以去 cross reference table 中找到具体位置然后解析这个 Stream。</p>
+<p>前面实现一个 PDF 阅读器之前，需要实现这些这些 PDF Objects 的解析规则，具体的实现可以参考我用 Rust 实现的 PDF 阅读器的Parser 部分 <a rel="noopener" target="_blank" href="https://github.com/rockyzhengwu/rspdf/tree/main/pdf/src/parser">rspdf</a></p>
+
+      <nav>
+        <div>
+          <a href="https://rockyzhengwu.github.io/pdf-document-structure/">&#8249; PDF 文件结构-Document Strcture (三) </a>
+        </div>
+        <div>
+          <a href="https://rockyzhengwu.github.io/pdf-overview/"> PDF 文件格式(一)  &#8250;</a>
+        </div>
+      </nav>
+    </article>
+
+    <div class="sblock">
+      <div class="blockdiv">
+        <a class="b s150" href="https://rockyzhengwu.github.io/tags/pdf/">Series</a>
+        <ol>
+            
+      <li><a href="https://rockyzhengwu.github.io/pdf-overview/">PDF 文件格式(一) </a></li>
+            
+      <li><a class="scur" href="https://rockyzhengwu.github.io/pdf-file-structure/">PDF 文件结构-File Structure(二) </a></li>
+    
+            
+      <li><a href="https://rockyzhengwu.github.io/pdf-document-structure/">PDF 文件结构-Document Strcture (三) </a></li>
+            
+      <li><a href="https://rockyzhengwu.github.io/pdf-graphics/">PDF 文件结构-Graphics(四) </a></li>
+            
+      <li><a href="https://rockyzhengwu.github.io/pdf-image/">PDF 文件结构-image (五) </a></li>
+            
+      <li><a href="https://rockyzhengwu.github.io/pdf-table-extract/">PDF 表格提取 </a></li>
+            
+      <li><a href="https://rockyzhengwu.github.io/pdf-text/">PDF 文件结构-text (六) </a></li>
+        </ol>
+      </div>
+
+      <div class="blockdiv sticky">
+        <a class="b s150" href="#">Index</a>
+        <div>
+          <a href="#pdf-file-structure">PDF File Structure</a>
+        </div>
+        <div class="hpad">
+          <a href="#head"><small>- Head</small></a>
+        </div>
+        <div class="hpad">
+          <a href="#body"><small>- Body</small></a>
+        </div>
+        <div class="hpad">
+          <a href="#cross-reference-table"><small>- Cross reference table</small></a>
+        </div>
+        <div class="hpad">
+          <a href="#trailer"><small>- Trailer</small></a>
+        </div>
+        <div class="hpad">
+          <a href="#objects"><small>- Objects</small></a>
+        </div>
+        <div class="hpad">
+          <a href="#string-objects"><small>- String Objects</small></a>
+        </div>
+        <div class="hpad">
+          <a href="#name-objects"><small>- Name Objects</small></a>
+        </div>
+        <div class="hpad">
+          <a href="#array-objects"><small>- Array Objects</small></a>
+        </div>
+        <div class="hpad">
+          <a href="#dictionary-objects"><small>- Dictionary Objects</small></a>
+        </div>
+        <div class="hpad">
+          <a href="#stream-objects"><small>- Stream Objects</small></a>
+        </div>
+        <div class="hpad">
+          <a href="#null-object"><small>- Null Object</small></a>
+        </div>
+        <div class="hpad">
+          <a href="#indirect-objects"><small>- Indirect Objects</small></a>
+        </div>
+      </div>
+    </div>
+  </main>
+  <footer>
+    <div class="c">
+      <nav><div><a href="https://twitter.com/zhengfivefive/" target="_blank" title="Twitter"><i type="Button" class="svg twitter" title="Twitter"></i></a><a href="https://github.com/rockyzhengwu/" target="_blank" title="Github"><i type="Button" class="svg github" title="Github"></i></a></div></nav>
+      <p class="s90"> &copy; <span id="year">2024</span> ZhengWu</p>
+      <p class="s90">Powered by <a href="https://www.getzola.org/" target="_blank">Zola</a> & <a href="https://github.com/jieiku/abridge/" target="_blank">Abridge</a></p>
+    </div>
+  </footer><span class="topout">
+<span class="topleft"> </span><a href="#" class="top" title="Back to Top"><i class="svgs svgh angu"></i></a>
+</span>
+</body>
+</html>

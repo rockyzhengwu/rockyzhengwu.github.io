@@ -1,0 +1,138 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src="https://rockyzhengwu.github.io/js/theme.min.js" integrity="sha384-pb++s6uBRKaQv+iAXpgA/H3IlpLZdO14tTwuCI7uXmz4aaZdByoCcM+6BhynMq/1"></script>
+  <link rel="stylesheet" href="https://rockyzhengwu.github.io/abridge.css?h=05bba1e42abce3a1e3d2" />
+  <meta charset="utf-8" />
+  <meta http-equiv="x-ua-compatible" content="ie=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="base" content="https://rockyzhengwu.github.io" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <link rel="preload" as="style" class="preStyle" href="https://rockyzhengwu.github.io/katex.min.css" integrity="sha384-ZPe7yZ91iWxYumsBEOn7ieg8q/o+qh/hQpSaPow8T6BwALcXSCS6C6fSRPIAnTQs" />
+  <meta name="robots" content="index, follow" />
+  <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+  <meta name="bingbot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+  <title>PDF 文件格式(一)  | ZhengWu</title>
+  <meta name="copyright" content="ZhengWu" />
+  <meta name="description" content="PDF 文件格式" />
+  <link rel="canonical" href="https://rockyzhengwu.github.io/pdf-overview/" />
+  <meta name="keywords" content="PDF" />
+  <meta property="og:url" content="https://rockyzhengwu.github.io/pdf-overview/" />
+  <meta name="twitter:url" content="https://rockyzhengwu.github.io/pdf-overview/" />
+  <meta property="og:description" content="PDF 文件格式" />
+  <meta name="twitter:description" content="PDF 文件格式" />
+  <meta property="og:title" content="PDF 文件格式(一)  | ZhengWu" />
+  <meta name="twitter:title" content="PDF 文件格式(一)  | ZhengWu" />
+  <meta name="twitter:card" content="summary" />
+  <meta property="og:site_name" content="ZhengWu" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:type" content="website" />
+  <meta property="og:updated_time" content="2024-05-02" />
+  <script defer src="https://rockyzhengwu.github.io/js/prestyle.js?h=146f911a5e713e197057" integrity="sha384-6wbmVXuN+uOE0IR/CuCv4Xb2OtZHsboBoVmCp7ZrwOY6Z0NBOighQOCn+aWykf3n"></script>
+  <script defer src="https://rockyzhengwu.github.io/js/theme_button.js?h=12a31e87fcbe7a55e953" integrity="sha384-UBxLGgFVZtEgNzOU3WqKoFT1oILftGjShFO4WIs1dO/jK7SNyz7BMYCYt5PffTxe"></script>
+  <script defer src="https://rockyzhengwu.github.io/js/email.js?h=ee3dd742e11c5014fdef" integrity="sha384-y0LUfjslyVLYZvCOyhELpvKivlXAq27Vnbed54glXoe/pZSYS/Pfqghp/sQt1xcV"></script>
+  <script defer src="https://rockyzhengwu.github.io/js/codecopy.js?h=0a54f99e682443925d3a" integrity="sha384-qssVvPpQgISh4PFkSBGTgXEMzuFO8Hat5m1MsdkpannoByWSTpLfBe4iEVl3+RiP"></script>
+  <script defer src="https://rockyzhengwu.github.io/js/elasticlunr.min.js?h=4f648b9e42abdef9c436" integrity="sha384-Q8viz7rndi8MSNDtItDgVWNSrCumjepopRMlz2nElkWPRXDQAcfiZGJbrCJVXdtw"></script>
+  <script defer src="https://rockyzhengwu.github.io/search_index.en.js?h=e78190633e46cb76bbac" integrity="sha384-IR7ZGJZXDHRVgf5EIMVcv+lnvEeXyKBLt8Gr+QpD2Se1kc1OH3Nk/MNvBvhIs2Mk"></script>
+  <script defer src="https://rockyzhengwu.github.io/js/searchjava.js?h=0c21fd0f19dbcf307af5" integrity="sha384-aScgZbiqY56Pw6uIUDpeV8tyTYskJDbi097is1f7oHsc+251G6aX3HJDfJrGx3+Q"></script>
+  <script defer src="https://rockyzhengwu.github.io/js/katexbundle.min.js?h=6299b774ae77579e4404" integrity="sha384-w2LtVhWr6g/pnU4E8ZCpuUruGnK6Kw2ykIJojhKGscTSRckItl1/sZigXdTjRkkI"></script>
+  <noscript><link rel="stylesheet" href="https://rockyzhengwu.github.io/nojs.css" /></noscript>
+
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CHCLQJ465V"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() {dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-CHCLQJ465V');
+</script>
+</head>
+<body>
+  <header>
+    <nav>
+      <div><h1><a href="https://rockyzhengwu.github.io" title="ZhengWu">ZhengWu</a></h1></div>
+      <div>
+
+        <div>
+          <ul><li><a class="s110" href="https://rockyzhengwu.github.io/about/"> About </a></li><li><a class="s110" href="https://rockyzhengwu.github.io/archive/"> Posts </a></li><li><a class="s110" href="https://rockyzhengwu.github.io/tags/"> Tags </a></li><li><i type="reset" id="mode" class="js svgs adjust"></i></ul>
+        </div>
+
+        <div>
+          <div>
+            <form autocomplete=off class="js" name="goSearch" id="searchbox">
+              <div class="searchd">
+                <input id="searchinput" type="text" placeholder="Search" title="Search" />
+                <button type="submit" title="Search" class="svgs search"></button>
+              </div>
+              <div class="results"><div id="suggestions"></div></div>
+            </form>
+          </div>
+        </div>
+
+      </div>
+    </nav>
+  </header>
+  <main>
+    <article>
+      <h1><a href="https://rockyzhengwu.github.io/pdf-overview/">PDF 文件格式(一) </a></h1>
+
+      <span class="s95"> <span class="rpad"></span> May 02, 2024 <span class="rpad"></span>Updated: May 02, 2024 <span class="rpad"></span> #<a href="https://rockyzhengwu.github.io/tags/pdf/">PDF</a> </span>
+
+    
+        <div class="block">
+      <div class="blockdiv">
+        <a class="b s150" href="https://rockyzhengwu.github.io/tags/pdf/">PDF (Series)</a>
+        <ol>
+            <li><a class="scur" href="https://rockyzhengwu.github.io/pdf-overview/">PDF 文件格式(一) </a></li> 
+          
+            <li><a href="https://rockyzhengwu.github.io/pdf-file-structure/">PDF 文件结构-File Structure(二) </a></li>
+            <li><a href="https://rockyzhengwu.github.io/pdf-document-structure/">PDF 文件结构-Document Strcture (三) </a></li>
+            <li><a href="https://rockyzhengwu.github.io/pdf-graphics/">PDF 文件结构-Graphics(四) </a></li>
+            <li><a href="https://rockyzhengwu.github.io/pdf-image/">PDF 文件结构-image (五) </a></li>
+            <li><a href="https://rockyzhengwu.github.io/pdf-table-extract/">PDF 表格提取 </a></li>
+            <li><a href="https://rockyzhengwu.github.io/pdf-text/">PDF 文件结构-text (六) </a></li>
+        </ol>
+      </div>
+    </div>
+
+
+<p>要传递文档有很多选择，最简单的纯文本,它的特点是只有文本信息，没有字体，没有图像，没有排版等。</p>
+<p>除此之外很自然的会想到 Microsoft Word , Word 多用来编辑文档，排版等等，把 Word 在不同电脑间传递会带来一些问题，比如高版本的 Word 创建的文档不能在低版本的 Word 上完全一模一样的显示。</p>
+<p>我们还有另外一种方法，就是把排版好的文档打印成图片，然后传递图片，因为图片可以完整保存格式信息而且还不会变化。这会有新的问题，比如低像素的图片，在高分辨率的电脑上看起来效果就不是很好。</p>
+<p>这个时候就是 PDF 派上用场了，PDF 的全称是 Portable Document Format 字面意思方便在不同设备间传递的格式。我们看到很多论文，求职简历,正式的公告之类的文件都是 PDF ， PDF 带来了很多好处，比如版权保护，不易修改，方便在不同设备间的显示效果一致。同时也带来一些问题，PDF 文档中没有了哪里是标题，哪里是段落，表格之类的这种逻辑结构的信息。有这些信息的叫 Tagged PDF .</p>
+<p>PDF 最早是 Adobe 开发的，在 PDF 之前有文档描述语言(page description languages)比如 PostScript，文档表述语言的实现方式是用编程语言来描述文档格式。举个例子，比如要在文档的中间写两个子&quot;美丽&quot;，文档描述语言的逻辑是记录这两个字的位置，使用的字体，字号，颜色等信息，当用阅读器打开这个文档的时候，阅读器会根据当前环境来渲染出页面。PDF 是从 PostScript 演进来的。除了 PostScript 还有其他的比如 TeX, 还有很少听到的 PCL,KPDL 等等。</p>
+<p>除了 ISO Standard 标准 PDF 有几个稍有区别的变种PDF/X, PDF/A . 中国在几年前出了自己的 PDF 文件格式叫 OFD(Open Fix-Layout Document)，简单看 OFD 的标准和 PDF 会有神似的地方，应该细节还是有写不一样。OFD 用来我们自己的发票之类的，不确定其他应用范围。</p>
+<p>要理解 PDF 这种文件格式会涉及到很多技术，理解的意思是可以写一个 PDF 的解析库，因为我正在尝试写一个 PDF 实现。</p>
+<p>PDF 包含文字，图片，Graphics(不确定怎么翻译),举几个例子，直线，Bézier Cerve，等几何图形的描述和渲染，这就会需要 2D 图形学相关知识。</p>
+<p>PDF 可以直接保存图像比如 (png, tiff, jpg) 等等，这些文件格式。不管是文字还是 Graphics 都是可以有颜色的，颜色相关的知识，比如 CMYK, RGB .... PDF 中的颜色就有十几种方式来定义。</p>
+<p>PDF 是从 PostScript 变化来的，所以在 PDF 里总是会看到编程语言的影子，PDF 每一页的内容是用一条一条命令来描述在什么位置需要放什么内容的。总共有60 多还是 70 多调指令，然后用一个基于栈的方式来解释这些指令成具体的光栅化的动作，这样就可以把一个 PDF 文档显示到我们面前。</p>
+<p>除了这些有的 PDF 支持 JavaScript , 支持 Form 表单，加密等等。 还可以预见到很多其他问题，比如字体，图片这些都是可以嵌入到 PDF 文件里，为了让文件尽可能的小，会需要压缩相关的知识。</p>
+<p>这些知识点都是我们司空见惯的东西，很少在意其具体实现是什么。加上各种历史原因，每个小的知识点都极度复杂，比如字体有很多中格式类型 PDF 都支持， Typ0, Typ1, OpenType , TrueType .... 字体一旦有问题都会带来各种问题，比如文字不能正确显示，复制乱码之类的问题。</p>
+<p>在使用 PDF 的时候会遇到很多问题， PDF 转 Word, PDF 提取表格，PDF 转图片，PDF 切分合并，加密等，而且也有很多这种工具，但有些问题还是多少会有问题比如 PDF 提取表格. PDF 怎么提取文字，怎么提取 PDF 中的字体，图像。如何分析 PDF 中的逻辑结构把 PDF 转化成 HTML, MarkDown 等等。理解 PDF 方便我能解决这些问题。如果文中有误多指正，或者 PDF 相关的问题可以联系我(zhengwu@midday.me)</p>
+
+      <nav>
+        <div>
+          <a href="https://rockyzhengwu.github.io/pdf-file-structure/">&#8249; PDF 文件结构-File Structure(二) </a>
+        </div>
+        <div>
+        </div>
+      </nav>
+    </article>
+  </main>
+  <footer>
+    <div class="c">
+      <nav><div><a href="https://twitter.com/zhengfivefive/" target="_blank" title="Twitter"><i type="Button" class="svg twitter" title="Twitter"></i></a><a href="https://github.com/rockyzhengwu/" target="_blank" title="Github"><i type="Button" class="svg github" title="Github"></i></a></div></nav>
+      <p class="s90"> &copy; <span id="year">2024</span> ZhengWu</p>
+      <p class="s90">Powered by <a href="https://www.getzola.org/" target="_blank">Zola</a> & <a href="https://github.com/jieiku/abridge/" target="_blank">Abridge</a></p>
+    </div>
+  </footer><span class="topout">
+<span class="topleft"> </span><a href="#" class="top" title="Back to Top"><i class="svgs svgh angu"></i></a>
+</span>
+</body>
+</html>

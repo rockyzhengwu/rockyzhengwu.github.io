@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
+    <title>ZhengWu - PDF</title>
+    <link rel="self" type="application/atom+xml" href="https://rockyzhengwu.github.io/tags/pdf/atom.xml"/>
+    <link rel="alternate" type="text/html" href="https://rockyzhengwu.github.io"/>
+    <generator uri="https://www.getzola.org/">Zola</generator>
+    <updated>2024-06-22T00:00:00+00:00</updated>
+    <id>https://rockyzhengwu.github.io/tags/pdf/atom.xml</id>
+    <entry xml:lang="en">
+        <title>PDF 表格提取 </title>
+        <published>2024-05-28T00:00:00+00:00</published>
+        <updated>2024-06-22T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              Unknown
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://rockyzhengwu.github.io/pdf-table-extract/"/>
+        <id>https://rockyzhengwu.github.io/pdf-table-extract/</id>
+        
+        <content type="html" xml:base="https://rockyzhengwu.github.io/pdf-table-extract/">&lt;p&gt;PDF 中的信息提取一直是一件很难的事情，比如 PDF 中的图像，表格 数学公式等等，最终极的应该是把 PDF 中的版式等等都给识别和提取出来。&lt;&#x2F;p&gt;
+&lt;p&gt;从 PDF 中提取表格大的来说就两个步骤，第一步找到表格的具体位置，第二步构建表格的结构信息，比如行，列，以及合并的单元格等等。&lt;&#x2F;p&gt;
+&lt;p&gt;如果我们要提取的表格是格式统一的，我们可以用 Table 需要的一些特定模式，比如表格里的横竖线，表格的内容等等来定位表格的位置，然后根据文字的位置，和文字之间的距离，字体等来定位表格的行，列，以及表头等等。当然这种方法可行，如果表格的样式很多，PDF 的版式很多这种方法就相对比较困难。&lt;&#x2F;p&gt;
+&lt;p&gt;另外一种方法就是用 模型的方法，很多大模型就有提取表格的能力，但是大模型需要很多资源，另外一种方法是训练一个小模型来解决这个问题，但是这种方式需要很多标注数据来训练 模型。&lt;&#x2F;p&gt;
+&lt;p&gt;首先可以利用 PDF 的 API 提取出表格中的文字和对应的位置，如果PDF中的文字是不能复制的，就需要 OCR 来实现这一步骤。&lt;&#x2F;p&gt;
+&lt;p&gt;PDF 的每一页被 PDF 渲染器光栅化处理成图片，然后用检测模型检测表格的位置。&lt;&#x2F;p&gt;
+&lt;p&gt;提取上一步检测到的表格的位置，然后送入表格结构识别的模型，构建表格的结构，结合文字在位置然后就能重构出表格的格式。&lt;&#x2F;p&gt;
+&lt;p&gt;我做了个免费的在线表格提取工具: https:&#x2F;&#x2F;tableninjia.com&#x2F; 可以尝试一下能不能解决你需要提取的表格，可以使用 PDF 也可以使用图片作为输入。&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="en">
+        <title>PDF 文件结构-text (六) </title>
+        <published>2024-05-28T00:00:00+00:00</published>
+        <updated>2024-05-28T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              Unknown
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://rockyzhengwu.github.io/pdf-text/"/>
+        <id>https://rockyzhengwu.github.io/pdf-text/</id>
+        
+        <content type="html" xml:base="https://rockyzhengwu.github.io/pdf-text/">&lt;p&gt;在弄清文本之前需要理解一些概念,Character (字符)或者中文汉字是一种符号，
+计算机是先把符号映射成整数，这个编码过程有 Ascii 或 Unicode 编码等。
+要把这些符号在屏幕上显示出来，就需要有一种方式来定义这些符号的样子，这个样子的定义我们叫 glyph 可以直接通过光栅化渲染到显示器或者图片里, 给字符(character) 的集合来定义统一风格就组成了字体(Font), 字体又不同的方式，就组成了不同的字体，字体文件也有不同的标准就组成了不同格式的字体比如 OpenType, TrueType 等等。&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;a href=&quot;https:&#x2F;&#x2F;rockyzhengwu.github.io&#x2F;pdf-text&#x2F;.&#x2F;pdf_text.png&quot;&gt;&lt;img src=&quot;.&#x2F;pdf_text.png&quot; width=&quot;500&quot;&#x2F;&gt;&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;graphics-operation&quot;&gt;Graphics Operation&lt;&#x2F;h2&gt;
+&lt;p&gt;前面的章节知道了 PDF 所有的内容都是通过 Graphics Operation 来绘制上去的，Text 也不例外,下面就是一个例子, &lt;code&gt;BT&lt;&#x2F;code&gt; 表示开始 Text , &lt;code&gt;ET&lt;&#x2F;code&gt; 表示 Text 结束, Tf 设置当前字图， Td 定义当前的位置...， Tj 是把一个 PDF String 绘制到页面上的动作。&lt;&#x2F;p&gt;
+&lt;pre class=&quot;z-code&quot;&gt;&lt;code&gt;&lt;span class=&quot;z-text z-plain&quot;&gt;BT
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-text z-plain&quot;&gt;&#x2F;F13 48 Tf
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-text z-plain&quot;&gt;20 40 Td
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-text z-plain&quot;&gt;0 Tr
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-text z-plain&quot;&gt;0.5 g
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-text z-plain&quot;&gt;( ABC ) Tj
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-text z-plain&quot;&gt;ET
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;这里的内容是只用 Ascii 编码的, 很多时候比如中文里，这个 Tj 前面的符号不一定是 Ascii 或者 Unicode,可以是任何数字，而且通常是 二进制，怎么把这数据解析成当个的 Character Id 然后找到对应的 glyph id 进而找到 glyph ，然后把 glyph 绘制出来，这些都是 Font 中定义的。&lt;&#x2F;p&gt;
+&lt;p&gt;理解了上面的过程有些 PDF 的问题就很好理解，比如有些 PDF 文件是可以复制的，但是复制出来是乱码，乱码的意思是我们不能把 PDF 里面 Tj 这个 Operation 参数的 Character Id 映射成具体的 Unicode 或者 Ascii. 
+因为我们在 PDF 里面如果不需要搜索字符，只想展示完全可以不需要把 Character Id 到 Unicode 的映射给存起来，虽然 PDF Font 里面有专门的字段 &lt;code&gt;ToUnicode&lt;&#x2F;code&gt; 来定义这个问题。如果没有这个映射我们看到的就是乱码.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;font&quot;&gt;Font&lt;&#x2F;h2&gt;
+&lt;p&gt;PDF 的 Font 是个极度复杂的话题，简单讲 PDF 里面有两种字体，一种是 Simple Font, 这里面包括 Type1, TrueType, Type3 还有一类是 Composite Font 主要包括 Type0 .&lt;&#x2F;p&gt;
+&lt;p&gt;Simple Font 都是用 Tj 的参数中的一个 byte 来表示一个 character id , 然后把 character id 映射到 glyph id. Composite 则是用一个叫 CIDFont 的把 character id 的编码映射到 glyph , 主要是因为中文，日文等，不能用一个 byte 来编码所有字符.&lt;&#x2F;p&gt;
+&lt;p&gt;字体可以被嵌入 PDF 文件里，也可以不嵌入，如果不嵌入当 PDF 移动到没有需要字体的机器上就会因为缺少字体而无非显示，或者无法显示一致，因为很多 PDF 阅读器在字体缺失的时候会用默认字体。&lt;&#x2F;p&gt;
+&lt;p&gt;如果要从 PDF 文件里抽取出文字，要做的就是 把 &lt;code&gt;Tj&lt;&#x2F;code&gt; 或者 &lt;code&gt;TJ&lt;&#x2F;code&gt; 两个 Operation 里的参数的 Character 映射成 Unicode ， 如果字体里面没有 ToUnicode 的转化方式，结果就是能看到正常的 PDF ， 但是不能提前文字.&lt;&#x2F;p&gt;
+&lt;p&gt;PDF 的字体还有很多细节，涉及很多文字的内容，比如字的大小，阅读方向等。另外一些文档的逻辑结构比如段落，标题，等等在 PDF 里是没有的。&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="en">
+        <title>PDF 文件结构-image (五) </title>
+        <published>2024-05-26T00:00:00+00:00</published>
+        <updated>2024-05-26T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              Unknown
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://rockyzhengwu.github.io/pdf-image/"/>
+        <id>https://rockyzhengwu.github.io/pdf-image/</id>
+        
+        <content type="html" xml:base="https://rockyzhengwu.github.io/pdf-image/">&lt;p&gt;&lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;rockyzhengwu.github.io&#x2F;pdf-graphics&#x2F;&quot;&gt;上章&lt;&#x2F;a&gt;总的介绍了 Graphics, Image 在 PDF 中有两种，一种是作为 External Objects 出现，External Objects 就是一个独立于 Content Stream 的 一个 PDF Stream 的对象, 也叫做 XObjects 。
+另一种是 inline Image , Image 的内容直接在 Content Stream 中出现。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;external-image&quot;&gt;External Image&lt;&#x2F;h2&gt;
+&lt;p&gt;所有的 External Objects 都是通过 &lt;code&gt;Do&lt;&#x2F;code&gt; 这个 Graphics Operation 绘制在页面上的，Extrenal Image 也不例外。下面就是一个绘制 Image 的例子,其中 &lt;code&gt;&#x2F;Image1&lt;&#x2F;code&gt; External Objects 中的名字，拿着这个名字可以去当前页面的 Resource Dictionary 中的 &lt;code&gt;XObjects&lt;&#x2F;code&gt; 下面获取到 &lt;code&gt;&#x2F;Image1&lt;&#x2F;code&gt; 在 PDF 文档中的具体位置和内容.&lt;&#x2F;p&gt;
+&lt;pre class=&quot;z-code&quot;&gt;&lt;code&gt;&lt;span class=&quot;z-text z-plain&quot;&gt;&#x2F;Image1 Do
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Image 在 PDF 中可以看成一个采样的数组，每个元素是一个颜色.
+Image 是作为 PDF Stream 存在的，Stream 的 Dictionary 部分存放很多 Image 的属性，
+需要把 Image 绘制出来需要知道一些信息
+图像的格式: 宽，高，颜色空间的颜色有几个元素，每个元素占用的 Bit 位是多少，比如 DeviceGray 这个颜色就只有一个颜色，8 个 bit 就可以表示一个颜色(256 阶灰度)。 图像应该绘制在页面的什么位置。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;inline-image&quot;&gt;Inline Image&lt;&#x2F;h2&gt;
+&lt;p&gt;Image Image 是用几个命令一起使用来定义的。 &lt;code&gt;BI&lt;&#x2F;code&gt; 是 Begin Image, 后面存储的是 Image 的属性，ID 后面是 Image Data ， 里面存储的是图像的内容。&lt;&#x2F;p&gt;
+&lt;pre class=&quot;z-code&quot;&gt;&lt;code&gt;&lt;span class=&quot;z-text z-plain&quot;&gt;BI
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-text z-plain&quot;&gt;… Key-value pairs …
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-text z-plain&quot;&gt;ID
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-text z-plain&quot;&gt;… Image data …
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-text z-plain&quot;&gt;EI
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h2 id=&quot;colorspace&quot;&gt;ColorSpace&lt;&#x2F;h2&gt;
+&lt;p&gt;图像中一个复杂的地方是把图像内容转化成对应的颜色，PDF 的颜色空间(Color Space) 有三种大的类型&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;Device: DreviceGray, DeviceRGB, DeviceCMYK&lt;&#x2F;li&gt;
+&lt;li&gt;CIE-Based: CalGray，CalRGB， Lab, ICCBased&lt;&#x2F;li&gt;
+&lt;li&gt;Special: Indexed, Pattern, Separation,DeviceN&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="en">
+        <title>PDF 文件结构-Graphics(四) </title>
+        <published>2024-05-08T00:00:00+00:00</published>
+        <updated>2024-05-08T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              Unknown
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://rockyzhengwu.github.io/pdf-graphics/"/>
+        <id>https://rockyzhengwu.github.io/pdf-graphics/</id>
+        
+        <content type="html" xml:base="https://rockyzhengwu.github.io/pdf-graphics/">&lt;h2 id=&quot;graphics&quot;&gt;Graphics&lt;&#x2F;h2&gt;
+&lt;p&gt;根据 &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;rockyzhengwu.github.io&#x2F;pdf-file-structure&#x2F;&quot;&gt;File Structure&lt;&#x2F;a&gt; 和 &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;rockyzhengwu.github.io&#x2F;pdf-document-structure&#x2F;&quot;&gt;Document Structure&lt;&#x2F;a&gt; 两部分知识，可以解析出每页的 Content Stream，我们最终看到的 PDF 是光栅化之后的结果，每一页的 Content Stream 是一些指令组成的，通过基于 Stack 的解释器，可以把这些指令转换成 Graphic 操作，Graphics 操作定义了页面上的 Graphics Object 。我们看到的,文本，图片，等等都是 Graphic Objects。这张主要介绍 Content 转化成 Graphics 的大的逻辑.&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;a href=&quot;https:&#x2F;&#x2F;rockyzhengwu.github.io&#x2F;pdf-graphics&#x2F;.&#x2F;graphics_flow.png&quot;&gt;&lt;img src=&quot;.&#x2F;graphics_flow.png&quot; width=&quot;500&quot;&#x2F;&gt;&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;graphics-objects&quot;&gt;Graphics Objects&lt;&#x2F;h2&gt;
+&lt;p&gt;PDF 有 5 种大的 Graphic 类型&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;Path object: 直线，四边形，贝塞尔曲线组成的任何图形.&lt;&#x2F;li&gt;
+&lt;li&gt;Text Object: 简单理解就是我们看到的文本.需要字体，颜色等结合来定义一个文字怎么显示.&lt;&#x2F;li&gt;
+&lt;li&gt;External Object: 在 Content Stream 作为引用存在，实际在每一页的 Resource Dictionary 中.&lt;&#x2F;li&gt;
+&lt;li&gt;inline Image: 在 Content Stream 中直接存在的图像&lt;&#x2F;li&gt;
+&lt;li&gt;Shading Object: 一个几何图形，他的颜色是用任意位置的函数定义的。&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h2 id=&quot;graphics-operation&quot;&gt;Graphics Operation&lt;&#x2F;h2&gt;
+&lt;p&gt;下面是一个 Content Stream 的例子，&lt;code&gt;q&lt;&#x2F;code&gt;,&lt;code&gt;ri&lt;&#x2F;code&gt;,&lt;code&gt;gs&lt;&#x2F;code&gt; ... &lt;code&gt;TJ&lt;&#x2F;code&gt; 都是具体的 Graphics Operation, Operation 前面的部分就是 Operation 的参数。比如 &lt;code&gt;&#x2F;F6 1 Tf&lt;&#x2F;code&gt; 这行就是设置字体是 &lt;code&gt;F6&lt;&#x2F;code&gt;, 字体大小是 &lt;code&gt;1&lt;&#x2F;code&gt; 。&lt;&#x2F;p&gt;
+&lt;pre class=&quot;z-code&quot;&gt;&lt;code&gt;&lt;span class=&quot;z-text z-plain&quot;&gt;q
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-text z-plain&quot;&gt;&#x2F;RelativeColorimetric ri
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-text z-plain&quot;&gt;&#x2F;GS2 gs
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-text z-plain&quot;&gt;BT
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-text z-plain&quot;&gt;&#x2F;F6 1 Tf
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-text z-plain&quot;&gt;11.9299 0 0 11.9299 111.5607 411.2903 Tm
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-text z-plain&quot;&gt;&#x2F;Cs8 cs 1 scn
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-text z-plain&quot;&gt;0.0001 Tc
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-text z-plain&quot;&gt;0 Tw
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-text z-plain&quot;&gt;[(T)104.6(o)-267.6(my)-267.8(kind,)-267.1(brilliant,)-268.7(and)-267.5(inspiring)-267.2(Sara.)]TJ
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-text z-plain&quot;&gt;ET
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-text z-plain&quot;&gt;Q
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-text z-plain&quot;&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Operation 的解释是一个基于 Stack 解释器，Stack 中存储的是 Graphic State。Operation 按照产生的结果可以分成两种，一种是设置 Graphic State，比如例子中的 &lt;code&gt;Tf&lt;&#x2F;code&gt;设置字体信息,还有一种是产生具体的 Graphics 比如 &lt;code&gt;TJ&lt;&#x2F;code&gt;, &lt;code&gt;TJ&lt;&#x2F;code&gt; 的作用是在页面上显示文本.&lt;&#x2F;p&gt;
+&lt;p&gt;通过 &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;rockyzhengwu&#x2F;rspdf&#x2F;blob&#x2F;main&#x2F;pdf&#x2F;src&#x2F;page&#x2F;content_parser.rs&quot;&gt;Content Stream 的解析器&lt;&#x2F;a&gt; 可以得到 Grapic Operation, 但是具体的每个 Operation 产生什么作用可以在后面的章节详细介绍。&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="en">
+        <title>PDF 文件结构-Document Strcture (三) </title>
+        <published>2024-05-06T00:00:00+00:00</published>
+        <updated>2024-05-06T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              Unknown
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://rockyzhengwu.github.io/pdf-document-structure/"/>
+        <id>https://rockyzhengwu.github.io/pdf-document-structure/</id>
+        
+        <content type="html" xml:base="https://rockyzhengwu.github.io/pdf-document-structure/">&lt;h2 id=&quot;pdf-document-structure&quot;&gt;PDF Document Structure&lt;&#x2F;h2&gt;
+&lt;p&gt;PDF 可以看作是&lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;rockyzhengwu.github.io&#x2F;pdf-file-structure&#x2F;&quot;&gt;上一章&lt;&#x2F;a&gt;  中介绍的 Dictionary 组成的一个树形的层次结构，比如的一层的部分是下图中的样子&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;a href=&quot;https:&#x2F;&#x2F;rockyzhengwu.github.io&#x2F;pdf-document-structure&#x2F;.&#x2F;document_structure.png&quot;&gt;&lt;img src=&quot;.&#x2F;document_structure.png&quot; width=&quot;500&quot;&#x2F;&gt;&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;PDF 中的每一页都是一个Dictionary 来描述，这个 Dictionary 有 Page 中内容对象的引用，这一页上的注解，页面大小等等都可以在这个 Dictionary 中描述，所有的页都是 Page Tree 中的叶子节点，也有非页节点，而且叶子节点可以从父节点继承一些属性。比如页面大小。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;document-catalog&quot;&gt;Document Catalog&lt;&#x2F;h3&gt;
+&lt;p&gt;Document Catalog 是 PDF 文档结构的根节点，这个根节点存在 trailer 中的 Root 里。从 Document Catalog 我们可以得到 PageTree 的根节点，然后解析 PageTree 解可以知道每一页的内容。Outline 等其他信息也是类似的流程。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;page-tree&quot;&gt;Page Tree&lt;&#x2F;h3&gt;
+&lt;p&gt;文档结构中重点介绍一下 Page Tree ，因为 PDF 的主要主要内容都是存储在 Page 里面。
+Page Tree 是一个树结构，其中也两种节点，没个节点都是一个 Dictionary, Dictionary 中有一个字段 Type ， Type 中有 Pages,和 Page 两种取值。Pages 是 Page 的集合，它们多是在非叶子节点上，Page 多是叶子节点，大致结构类似下图:&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;a href=&quot;https:&#x2F;&#x2F;rockyzhengwu.github.io&#x2F;pdf-document-structure&#x2F;.&#x2F;page_tree.png&quot;&gt;&lt;img src=&quot;.&#x2F;page_tree.png&quot; width=&quot;500&quot;&#x2F;&gt;&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;Page Tree 的解析过程可以参考 &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;rockyzhengwu&#x2F;rspdf&#x2F;blob&#x2F;main&#x2F;pdf&#x2F;src&#x2F;pagetree.rs&quot;&gt;rspdf 的实现&lt;&#x2F;a&gt;, &lt;&#x2F;p&gt;
+&lt;h4 id=&quot;content-stream&quot;&gt;Content Stream&lt;&#x2F;h4&gt;
+&lt;p&gt;这是知道了页面的结构，需要知道每一页的内容，PageTree 中 Page 类型的节点中有一个 &lt;code&gt;contents&lt;&#x2F;code&gt;的字段存储当前页面的内容的引用，内容多是存储在一个 Stream 类型里。解析 Content Stream 中的指令，通过一个基于 Stack 的解释器解释这些指令就能得到具体的位置上是图片还是文字等等信息。&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;resource-stream&quot;&gt;Resource Stream&lt;&#x2F;h4&gt;
+&lt;p&gt;每一页的内容有文字，文字有字体，字体这种就被当作资源存储在 Page 节点的属性里，当我们解释 Content Stream 的指令的时候，指令的操作是设置当前字体, 然后从 Resource 中可以获取到具体的字体是什么。除此之外图片，颜色等信息都可以在 Resource 里面.&lt;&#x2F;p&gt;
+&lt;p&gt;从 Document Structure 结构我们可以知道 PDF 一些元素的逻辑解构，结合&lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;rockyzhengwu.github.io&#x2F;pdf-file-structure&#x2F;&quot;&gt;上一章 File Structure &lt;&#x2F;a&gt; 可以很好的从 PDF 中抽取一些数据，比如提取嵌入在 PDF 中的字体，这都不要我们具体去实现解释器，解释 Content  的内容.
+当然 Document Structure 中还有其他内容没有在这里展开，比如 Form 相关的.&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="en">
+        <title>PDF 文件结构-File Structure(二) </title>
+        <published>2024-05-04T00:00:00+00:00</published>
+        <updated>2024-05-04T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              Unknown
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://rockyzhengwu.github.io/pdf-file-structure/"/>
+        <id>https://rockyzhengwu.github.io/pdf-file-structure/</id>
+        
+        <content type="html" xml:base="https://rockyzhengwu.github.io/pdf-file-structure/">&lt;h2 id=&quot;pdf-file-structure&quot;&gt;PDF File Structure&lt;&#x2F;h2&gt;
+&lt;p&gt;&lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;http:&#x2F;&#x2F;127.0.0.1:1111&#x2F;pdf-overview&#x2F;&quot;&gt;PDF 文件结构(一)&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;从大的角度 PDF 可以分成下图中的四个部分.&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;a href=&quot;https:&#x2F;&#x2F;rockyzhengwu.github.io&#x2F;pdf-file-structure&#x2F;.&#x2F;pdf_file_structure.png&quot;&gt;&lt;img src=&quot;.&#x2F;pdf_file_structure.png&quot; width=&quot;150&quot;&#x2F;&gt;&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;head&quot;&gt;Head&lt;&#x2F;h3&gt;
+&lt;p&gt;Head 一般都只有很少的信息，比如最简单的 &lt;code&gt;%PDF-1.7&lt;&#x2F;code&gt; 这样一行，记录 PDF 版本.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;body&quot;&gt;Body&lt;&#x2F;h3&gt;
+&lt;p&gt;通常情况下 Body 占了 PDF 文件的几乎 95% 以上的内容，Body 是很多 Object 组成的。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;cross-reference-table&quot;&gt;Cross reference table&lt;&#x2F;h3&gt;
+&lt;p&gt;Cross reference table 记录 所有 Object 在文件中的位置信息。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;trailer&quot;&gt;Trailer&lt;&#x2F;h3&gt;
+&lt;p&gt;Trailer 中有两部分，一部分是一个 Dictionary 记录了一些基础的信息，比如 PDF 的Info, 加密信息，比较重要的是记录的 Document Structure 的 Root ， 后面还会提到这个。领一部分是记录 cross reference table 的起始位置,下面是一个 Trailer 的示例&lt;&#x2F;p&gt;
+&lt;pre class=&quot;z-code&quot;&gt;&lt;code&gt;&lt;span class=&quot;z-text z-plain&quot;&gt;Trailer
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-text z-plain&quot;&gt;&amp;lt;&amp;lt;
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-text z-plain&quot;&gt;key1, value1
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-text z-plain&quot;&gt;key2, value2
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-text z-plain&quot;&gt;...
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-text z-plain&quot;&gt;&amp;gt;&amp;gt;
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-text z-plain&quot;&gt;startxref
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-text z-plain&quot;&gt;int(这个 int 记录 cross reference table 的位置)
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-text z-plain&quot;&gt;%EOF
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-text z-plain&quot;&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;开始解析 PDF 的时候大致可以分 下面几个步骤&lt;&#x2F;p&gt;
+&lt;ol&gt;
+&lt;li&gt;从文件读取 Trailer 中的信息&lt;&#x2F;li&gt;
+&lt;li&gt;从 Trailer 获取 cross reference table 的位置开始解析 cross reference table&lt;&#x2F;li&gt;
+&lt;li&gt;从 trailer 获取 Document Structure 的 跟节点 开始解析出文档结构的信息。&lt;&#x2F;li&gt;
+&lt;&#x2F;ol&gt;
+&lt;p&gt;这里有 File Structure 和 Document Structure 两个概念，File Structure 是文件的物理结构信息，Document Structure 是文档逻辑结构，比如每页的位置，每一页也是很多 Object 组成的。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;objects&quot;&gt;Objects&lt;&#x2F;h3&gt;
+&lt;p&gt;在读 Trailer 和解析 cross reference table 我们需要知道 PDF 都有哪些 Objects, 他们的解析的方法是什么。Trailer 又一个 Dictionary, Dictionary 就是一种 PDF 支持的 Objects, Cross reference Table 因为版本的原因有两种方式，其中最新的版本就是 Objects 组成的。&lt;&#x2F;p&gt;
+&lt;p&gt;PDF  是从 PostScript 演化来的，Objects 也就类似我们变成语言中支持的数据类型&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;boolean-objects&quot;&gt;Boolean Objects&lt;&#x2F;h4&gt;
+&lt;p&gt;Boolean 就两种 true, false,&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;numeric-objects&quot;&gt;Numeric Objects&lt;&#x2F;h4&gt;
+&lt;p&gt;数值类型有两种，一种是整数(Integer objects),一种是实数(Real objects),我想这里指浮点数。下面这些都是数值类型的写法&lt;&#x2F;p&gt;
+&lt;pre class=&quot;z-code&quot;&gt;&lt;code&gt;&lt;span class=&quot;z-text z-plain&quot;&gt;123 43445 +17 -98 0 34.5 -3.62 +123.6 4. -.002 0.0
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h3 id=&quot;string-objects&quot;&gt;String Objects&lt;&#x2F;h3&gt;
+&lt;p&gt;String 也有两种，一种是 Literal String 这种是在小括号中的字符串组成，比如:&lt;&#x2F;p&gt;
+&lt;pre class=&quot;z-code&quot;&gt;&lt;code&gt;&lt;span class=&quot;z-text z-plain&quot;&gt;( This is a string )
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;另一种是 Hexadecimal String 从字面意思可以看到这种字符串是16 进制的，放在两个尖括号里面, 比如&lt;&#x2F;p&gt;
+&lt;pre class=&quot;z-code&quot;&gt;&lt;code&gt;&lt;span class=&quot;z-text z-plain&quot;&gt;&amp;lt; 4E6F762073686D6F7A206B6120706F702E &amp;gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;当然字符串有其他许多规则，比如 Literal String 里面有特殊符号怎么办之类的.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;name-objects&quot;&gt;Name Objects&lt;&#x2F;h3&gt;
+&lt;p&gt;Name Objects 用 &lt;code&gt;&#x2F;&lt;&#x2F;code&gt; 开头后面跟字符串表示比如:&lt;&#x2F;p&gt;
+&lt;pre class=&quot;z-code&quot;&gt;&lt;code&gt;&lt;span class=&quot;z-text z-plain&quot;&gt;\Root
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h3 id=&quot;array-objects&quot;&gt;Array Objects&lt;&#x2F;h3&gt;
+&lt;p&gt;Array 是一种符合结构，和 Python 的 List 一样里面可以是任何 PDF Objects 包括 Array 本身,定义在中括号里，比如下面这个 Array 有两个数值，一个 Bool, 一个 String, 和一个 Name.&lt;&#x2F;p&gt;
+&lt;pre class=&quot;z-code&quot;&gt;&lt;code&gt;&lt;span class=&quot;z-text z-plain&quot;&gt;[ 549 3.14 false ( Ralph ) &#x2F;SomeName ]
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h3 id=&quot;dictionary-objects&quot;&gt;Dictionary Objects&lt;&#x2F;h3&gt;
+&lt;p&gt;Dictionary 是一组 Key 和 value ，类似变成语言中的 Map, 语法定义是在两个&lt;code&gt;&amp;lt;&amp;lt;&lt;&#x2F;code&gt; 和 &lt;code&gt;&amp;gt;&amp;gt;&lt;&#x2F;code&gt; 之间, key 都是 Name 类型，Value 可以是任何 PDF Objects 包括 Dictionary.&lt;&#x2F;p&gt;
+&lt;pre class=&quot;z-code&quot;&gt;&lt;code&gt;&lt;span class=&quot;z-text z-plain&quot;&gt;&amp;lt;&amp;lt; &#x2F;Type &#x2F;Example
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-text z-plain&quot;&gt;  &#x2F;Subtype &#x2F;DictionaryExample
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-text z-plain&quot;&gt;  &#x2F;Version 0 . 01
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-text z-plain&quot;&gt;  &#x2F;IntegerItem 12
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-text z-plain&quot;&gt;  &#x2F;StringItem ( a string )
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-text z-plain&quot;&gt;  &#x2F;Subdictionary &amp;lt;&amp;lt; &#x2F;Item1 0 . 4
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-text z-plain&quot;&gt;    &#x2F;Item2 true
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-text z-plain&quot;&gt;    &#x2F;LastItem ( not ! )
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-text z-plain&quot;&gt;    &#x2F;VeryLastItem ( OK )
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-text z-plain&quot;&gt;  &amp;gt;&amp;gt;
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-text z-plain&quot;&gt;&amp;gt;&amp;gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h3 id=&quot;stream-objects&quot;&gt;Stream Objects&lt;&#x2F;h3&gt;
+&lt;p&gt;Stream 包含两部分，一部分是一个 Dictionary ，另一部分是二进制流，是 Stream 的内容。Stream 是很常见的对象，比如表示图片的时候，Dictionary保存图片的信息，宽高等，Stream 保存图片的具体内容，语法的大体如下, stream 和 endstream 是关键字，中间的部分就是stream 具体内容&lt;&#x2F;p&gt;
+&lt;pre class=&quot;z-code&quot;&gt;&lt;code&gt;&lt;span class=&quot;z-text z-plain&quot;&gt;dictionary
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-text z-plain&quot;&gt;stream
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-text z-plain&quot;&gt;… Zero or more bytes …
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-text z-plain&quot;&gt;endstream
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h3 id=&quot;null-object&quot;&gt;Null Object&lt;&#x2F;h3&gt;
+&lt;p&gt;Null 和变成语言中的 None 一样&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;indirect-objects&quot;&gt;Indirect Objects&lt;&#x2F;h3&gt;
+&lt;p&gt;Indirect Objects 是一中特使的类型，可以理解它是 Objects 的一种引用，比如在一个 Dictionary 的 Value 是一个 Stream ， 由于 Stream 通常很大等因素,不太好把这个 Stream 写到这个 Dictionary 当前位置，我们就可以把 Stream 保存到其他位置，然后把这个 Stream 在 cross reference table 中的编号存成 Dictionary 的Value。 读到这个 Indirect Objects 我们可以去 cross reference table 中找到具体位置然后解析这个 Stream。&lt;&#x2F;p&gt;
+&lt;p&gt;前面实现一个 PDF 阅读器之前，需要实现这些这些 PDF Objects 的解析规则，具体的实现可以参考我用 Rust 实现的 PDF 阅读器的Parser 部分 &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;rockyzhengwu&#x2F;rspdf&#x2F;tree&#x2F;main&#x2F;pdf&#x2F;src&#x2F;parser&quot;&gt;rspdf&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="en">
+        <title>PDF 文件格式(一) </title>
+        <published>2024-05-02T00:00:00+00:00</published>
+        <updated>2024-05-02T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              Unknown
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://rockyzhengwu.github.io/pdf-overview/"/>
+        <id>https://rockyzhengwu.github.io/pdf-overview/</id>
+        
+        <content type="html" xml:base="https://rockyzhengwu.github.io/pdf-overview/">&lt;p&gt;要传递文档有很多选择，最简单的纯文本,它的特点是只有文本信息，没有字体，没有图像，没有排版等。&lt;&#x2F;p&gt;
+&lt;p&gt;除此之外很自然的会想到 Microsoft Word , Word 多用来编辑文档，排版等等，把 Word 在不同电脑间传递会带来一些问题，比如高版本的 Word 创建的文档不能在低版本的 Word 上完全一模一样的显示。&lt;&#x2F;p&gt;
+&lt;p&gt;我们还有另外一种方法，就是把排版好的文档打印成图片，然后传递图片，因为图片可以完整保存格式信息而且还不会变化。这会有新的问题，比如低像素的图片，在高分辨率的电脑上看起来效果就不是很好。&lt;&#x2F;p&gt;
+&lt;p&gt;这个时候就是 PDF 派上用场了，PDF 的全称是 Portable Document Format 字面意思方便在不同设备间传递的格式。我们看到很多论文，求职简历,正式的公告之类的文件都是 PDF ， PDF 带来了很多好处，比如版权保护，不易修改，方便在不同设备间的显示效果一致。同时也带来一些问题，PDF 文档中没有了哪里是标题，哪里是段落，表格之类的这种逻辑结构的信息。有这些信息的叫 Tagged PDF .&lt;&#x2F;p&gt;
+&lt;p&gt;PDF 最早是 Adobe 开发的，在 PDF 之前有文档描述语言(page description languages)比如 PostScript，文档表述语言的实现方式是用编程语言来描述文档格式。举个例子，比如要在文档的中间写两个子&amp;quot;美丽&amp;quot;，文档描述语言的逻辑是记录这两个字的位置，使用的字体，字号，颜色等信息，当用阅读器打开这个文档的时候，阅读器会根据当前环境来渲染出页面。PDF 是从 PostScript 演进来的。除了 PostScript 还有其他的比如 TeX, 还有很少听到的 PCL,KPDL 等等。&lt;&#x2F;p&gt;
+&lt;p&gt;除了 ISO Standard 标准 PDF 有几个稍有区别的变种PDF&#x2F;X, PDF&#x2F;A . 中国在几年前出了自己的 PDF 文件格式叫 OFD(Open Fix-Layout Document)，简单看 OFD 的标准和 PDF 会有神似的地方，应该细节还是有写不一样。OFD 用来我们自己的发票之类的，不确定其他应用范围。&lt;&#x2F;p&gt;
+&lt;p&gt;要理解 PDF 这种文件格式会涉及到很多技术，理解的意思是可以写一个 PDF 的解析库，因为我正在尝试写一个 PDF 实现。&lt;&#x2F;p&gt;
+&lt;p&gt;PDF 包含文字，图片，Graphics(不确定怎么翻译),举几个例子，直线，Bézier Cerve，等几何图形的描述和渲染，这就会需要 2D 图形学相关知识。&lt;&#x2F;p&gt;
+&lt;p&gt;PDF 可以直接保存图像比如 (png, tiff, jpg) 等等，这些文件格式。不管是文字还是 Graphics 都是可以有颜色的，颜色相关的知识，比如 CMYK, RGB .... PDF 中的颜色就有十几种方式来定义。&lt;&#x2F;p&gt;
+&lt;p&gt;PDF 是从 PostScript 变化来的，所以在 PDF 里总是会看到编程语言的影子，PDF 每一页的内容是用一条一条命令来描述在什么位置需要放什么内容的。总共有60 多还是 70 多调指令，然后用一个基于栈的方式来解释这些指令成具体的光栅化的动作，这样就可以把一个 PDF 文档显示到我们面前。&lt;&#x2F;p&gt;
+&lt;p&gt;除了这些有的 PDF 支持 JavaScript , 支持 Form 表单，加密等等。 还可以预见到很多其他问题，比如字体，图片这些都是可以嵌入到 PDF 文件里，为了让文件尽可能的小，会需要压缩相关的知识。&lt;&#x2F;p&gt;
+&lt;p&gt;这些知识点都是我们司空见惯的东西，很少在意其具体实现是什么。加上各种历史原因，每个小的知识点都极度复杂，比如字体有很多中格式类型 PDF 都支持， Typ0, Typ1, OpenType , TrueType .... 字体一旦有问题都会带来各种问题，比如文字不能正确显示，复制乱码之类的问题。&lt;&#x2F;p&gt;
+&lt;p&gt;在使用 PDF 的时候会遇到很多问题， PDF 转 Word, PDF 提取表格，PDF 转图片，PDF 切分合并，加密等，而且也有很多这种工具，但有些问题还是多少会有问题比如 PDF 提取表格. PDF 怎么提取文字，怎么提取 PDF 中的字体，图像。如何分析 PDF 中的逻辑结构把 PDF 转化成 HTML, MarkDown 等等。理解 PDF 方便我能解决这些问题。如果文中有误多指正，或者 PDF 相关的问题可以联系我(zhengwu@midday.me)&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+</feed>
